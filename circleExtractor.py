@@ -12,7 +12,7 @@ ClassNames = os.listdir(DatasetPath)
 
 for ClassName in ClassNames:
     ImgsPath = glob(DatasetPath + '/%s/*' % (ClassName))
-    with tqdm(total=len(ImgsPath), colour='blue', ncols=100) as t:
+    with tqdm(total=len(ImgsPath), colour='blue', ncols=50) as t:
         for ImgPath in ImgsPath:
             # ImgPath = './dataset/ISIC2019/ack/ISIC_0060404.jpg'
             Img = cv2.imread(ImgPath) # ISIC_0053762.jpg, ISIC_0053506.jpg
