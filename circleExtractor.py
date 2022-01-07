@@ -14,7 +14,7 @@ for ClassName in ClassNames:
     ImgsPath = glob(DatasetPath + '/%s/*' % (ClassName))
     with tqdm(total=len(ImgsPath), colour='blue', ncols=50) as t:
         for ImgPath in ImgsPath:
-            # ImgPath = './dataset/ISIC2019/ack/ISIC_0060404.jpg'
+            # ImgPath = './dataset/ISIC2019/bcc/ISIC_0053830.jpg'
             Img = cv2.imread(ImgPath) # ISIC_0053762.jpg, ISIC_0053506.jpg
             
             GrayImg = cv2.cvtColor(Img, cv2.COLOR_BGR2GRAY)
@@ -41,6 +41,8 @@ for ClassName in ClassNames:
                 cv2.imshow('Opening Edges', OpeningEdges)
                 cv2.waitKey(0)
                 
+                # cv2.imwrite('1.jpg', GrayImg)
+                
                 cv2.destroyAllWindows() # Code to close Window
 
             if Area / GrayImg.size < 0.9 and Area / GrayImg.size > 0.01:
@@ -48,8 +50,14 @@ for ClassName in ClassNames:
                 CropImg = Img[y : y + h, x : x + w]
                 # cv2.imshow('Cropped Img', CropImg)
                 # cv2.waitKey(0)
-
-                if WriteMode == 1:
+                
+                if WriteMode == 0:
+                    cv2.imwrite('./results/1.jpg', Img)
+                    cv2.imwrite('./results/2.jpg', GrayImg)
+                    cv2.imwrite('./results/3.jpg', Thred)
+                    cv2.imwrite('./results/4.jpg', OpeningEdges)
+                    cv2.imwrite('./results/5.jpg', CropImg)
+                elif WriteMode == 1:
                     Head, Tail = os.path.split(ImgPath)
                     DestPath = r'D:\dataset\Skin Disease\ISIC2019' + '/crop_img/' + ClassName
                     Path(DestPath).mkdir(parents=True, exist_ok=True)
