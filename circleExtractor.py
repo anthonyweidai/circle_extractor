@@ -14,7 +14,8 @@ for ClassName in ClassNames:
     ImgsPath = glob(DatasetPath + '/%s/*' % (ClassName))
     with tqdm(total=len(ImgsPath), colour='blue', ncols=50) as t:
         for ImgPath in ImgsPath:
-            # ImgPath = './dataset/ISIC2019/bcc/ISIC_0053830.jpg'
+            if WriteMode == 0:
+                ImgPath = './dataset/example/bcc/ISIC_0053830.jpg'
             Img = cv2.imread(ImgPath) # ISIC_0053762.jpg, ISIC_0053506.jpg
             
             GrayImg = cv2.cvtColor(Img, cv2.COLOR_BGR2GRAY)
@@ -57,6 +58,7 @@ for ClassName in ClassNames:
                     cv2.imwrite('./results/3.jpg', Thred)
                     cv2.imwrite('./results/4.jpg', OpeningEdges)
                     cv2.imwrite('./results/5.jpg', CropImg)
+                    break
                 elif WriteMode == 1:
                     Head, Tail = os.path.split(ImgPath)
                     DestPath = r'D:\dataset\Skin Disease\ISIC2019' + '/crop_img/' + ClassName
@@ -66,3 +68,5 @@ for ClassName in ClassNames:
                     cv2.imwrite(DestPath, CropImg)
                     
             t.update()
+    if WriteMode == 0:
+        break

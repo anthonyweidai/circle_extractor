@@ -1,6 +1,7 @@
 # Mine
-dataset
-results
+dataset/*
+results/*
+!dataset/example
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
