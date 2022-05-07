@@ -2,7 +2,8 @@
 The repository includes the codes to extract circle objects on the image by a rectangle. It is used in the following paper:
 
 [**HierAttn: Effectively Learn Representations from Stage Attention and Branch Attention for Skin Lesions Diagnosis**]() 
-Wei Dai, Rui Liu, Tianyi Wu, Min Wang, Jun Liu
+Wei Dai, Rui Liu, Tianyi Wu, Min Wang, Jianqin Yin, Jun Liu
+
 In arxiv, 2022.
 
 The image is processed by transforming into grey scale, binarization, and cropping.
