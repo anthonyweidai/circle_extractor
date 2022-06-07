@@ -7,11 +7,18 @@ import numpy as np
 
 
 WriteMode = 1
-DatasetPath = r'D:\dataset\Skin Disease\ISIC2019\data'
+SetName = 'ISIC2020' # 'ISIC2019'
+if '2019' in SetName:
+    DatasetPath = r'D:\dataset\Skin Disease' + '/%s/data/' % (SetName)
+elif '2020' in SetName:
+    DatasetPath = r'D:\dataset\Skin Disease' + '/%s/' % (SetName)
 ClassNames = os.listdir(DatasetPath)
 
 for ClassName in ClassNames:
-    ImgsPath = glob(DatasetPath + '/%s/*' % (ClassName))
+    FolderPath = DatasetPath + '/%s' % (ClassName)
+    if 'crop_img' in ClassName or not os.path.isdir(FolderPath):
+        continue
+    ImgsPath = glob(FolderPath + '/*')
     with tqdm(total=len(ImgsPath), colour='blue', ncols=50) as t:
         for ImgPath in ImgsPath:
             if WriteMode == 0:
@@ -61,7 +68,7 @@ for ClassName in ClassNames:
                     break
                 elif WriteMode == 1:
                     Head, Tail = os.path.split(ImgPath)
-                    DestPath = r'D:\dataset\Skin Disease\ISIC2019' + '/crop_img/' + ClassName
+                    DestPath = r'D:\dataset\Skin Disease' + '/%s/crop_img/%s' % (SetName, ClassName)
                     Path(DestPath).mkdir(parents=True, exist_ok=True)
                     DestPath = DestPath + '/' + Tail
                     
