@@ -55,6 +55,8 @@ for ClassName in ClassNames:
 
             if Area / GrayImg.size < 0.9 and Area / GrayImg.size > 0.01:
                 x, y, w, h = cv2.boundingRect(Contour)
+                if h / w > 1.8 or w / h > 1.8:
+                    break
                 CropImg = Img[y : y + h, x : x + w]
                 # cv2.imshow('Cropped Img', CropImg)
                 # cv2.waitKey(0)
