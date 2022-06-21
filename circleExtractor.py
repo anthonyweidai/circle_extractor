@@ -7,8 +7,10 @@ import numpy as np
 
 
 WriteMode = 1
-SetName = 'ISIC2020' # 'ISIC2019'
-if '2019' in SetName:
+SetName = 'ISIC2018' # 'ISIC2019', 'ISIC2020'
+if '2018' in SetName:
+    DatasetPath = r'D:\dataset\Skin Disease' + '/%s/task3/data/' % (SetName)
+elif '2019' in SetName:
     DatasetPath = r'D:\dataset\Skin Disease' + '/%s/data/' % (SetName)
 elif '2020' in SetName:
     DatasetPath = r'D:\dataset\Skin Disease' + '/%s/' % (SetName)
@@ -19,6 +21,7 @@ for ClassName in ClassNames:
     if 'crop_img' in ClassName or not os.path.isdir(FolderPath):
         continue
     ImgsPath = glob(FolderPath + '/*')
+    print("Croping %s lesion type" % ClassName)
     with tqdm(total=len(ImgsPath), colour='blue', ncols=50) as t:
         for ImgPath in ImgsPath:
             if WriteMode == 0:
@@ -56,7 +59,7 @@ for ClassName in ClassNames:
             if Area / GrayImg.size < 0.9 and Area / GrayImg.size > 0.01:
                 x, y, w, h = cv2.boundingRect(Contour)
                 if h / w > 1.8 or w / h > 1.8:
-                    break
+                    continue
                 CropImg = Img[y : y + h, x : x + w]
                 # cv2.imshow('Cropped Img', CropImg)
                 # cv2.waitKey(0)
@@ -70,7 +73,9 @@ for ClassName in ClassNames:
                     break
                 elif WriteMode == 1:
                     Head, Tail = os.path.split(ImgPath)
-                    DestPath = r'D:\dataset\Skin Disease' + '/%s/crop_img/%s' % (SetName, ClassName)
+                    if 'data' in DatasetPath:
+                        DestPath = str(Path(DatasetPath).parents[0]) # return upper level folder
+                    DestPath = '%s/crop_img/%s' % (DestPath, ClassName)
                     Path(DestPath).mkdir(parents=True, exist_ok=True)
                     DestPath = DestPath + '/' + Tail
                     
