@@ -22,7 +22,7 @@ If you find it useful in your research, please consider citing our paper as foll
 
 ```
 @misc{dai2022hierattn,
-      title={HierAttn: Effectively Learn Representations from Stage Attention and Branch Attention for Skin Lesions Diagnosis}, 
+      title={HierAttn: Deeply Supervised Skin Lesions Diagnosis with Stage and Branch Attention}, 
       author={Wei Dai and Rui Liu and Tianyi Wu and Min Wang and Jianqin Yin and Jun Liu},
       year={2022},
       eprint={2205.04326},
