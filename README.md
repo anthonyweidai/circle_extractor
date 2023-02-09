@@ -1,7 +1,7 @@
 # Circle_extractor
 The repository includes the codes to extract circle objects on the image by a rectangle. It is used in the following paper:
 
-[**HierAttn: Effectively Learn Representations from Stage Attention and Branch Attention for Skin Lesions Diagnosis**](https://arxiv.org/abs/2205.04326)  
+[**HierAttn: Deeply Supervised Skin Lesions Diagnosis with Stage and Branch Attention**](https://arxiv.org/abs/2205.04326)  
 Wei Dai, Rui Liu, Tianyi Wu, Min Wang, Jianqin Yin, Jun Liu        
 In arxiv, 2022. [[Paper](https://arxiv.org/abs/2205.04326)]
 
