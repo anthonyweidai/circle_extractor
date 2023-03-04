@@ -1,8 +1,9 @@
 import os
-from pathlib import Path
 from glob import glob
-import cv2
 from tqdm import tqdm
+from pathlib import Path
+
+import cv2
 import numpy as np
 
 from getDestPath import getDestPath
