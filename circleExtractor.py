@@ -5,25 +5,40 @@ import cv2
 from tqdm import tqdm
 import numpy as np
 
+from getDestPath import getDestPath
+
 
 WriteMode = 1
-SetName = 'ISIC2018' # 'ISIC2019', 'ISIC2020'
+ClassNames = []
+SetName = 'ISIC2018T1' # 'ISIC2019', 'ISIC2020', 'ISIC2018T1'
+
+MaskPath = ''
 if '2018' in SetName:
-    DatasetPath = r'D:\dataset\Skin Disease' + '/%s/task3/data/' % (SetName)
+    if 'T1' in SetName:
+        ClassNames = ['no_name']
+        Folder = ['ISIC2018_Task1-2_Training', 'ISIC2018_Task1-2_Validation']
+        DatasetPath = r'D:\dataset\Skin Disease' + '/%s/%s_Input/' % (SetName, Folder[0])
+        MaskPath = r'D:\dataset\Skin Disease' + '/%s/%s_GroundTruth/' % (SetName, Folder[0].replace('-2', ''))
+    else:
+        DatasetPath = r'D:\dataset\Skin Disease' + '/%s/task3/data/' % (SetName)
 elif '2019' in SetName:
-    DatasetPath = r'D:\dataset\Skin Disease' + '/%s/data/' % (SetName)
+    DatasetPath = r'D:\dataset\Skin Disease' + '/%s/official/data/' % (SetName)
 elif '2020' in SetName:
     DatasetPath = r'D:\dataset\Skin Disease' + '/%s/' % (SetName)
-ClassNames = os.listdir(DatasetPath)
+
+if not ClassNames:
+    ClassNames = os.listdir(DatasetPath)
 
 for ClassName in ClassNames:
-    FolderPath = DatasetPath + '/%s' % (ClassName)
+    FolderPath = DatasetPath + '/%s' % (ClassName if 'no_name' not in ClassName else '')
     if 'crop_img' in ClassName or not os.path.isdir(FolderPath):
         continue
     ImgsPath = glob(FolderPath + '/*')
+    if MaskPath:
+        MaskPath = glob(MaskPath + '/*')
     print("Croping %s lesion type" % ClassName)
     with tqdm(total=len(ImgsPath), colour='blue', ncols=50) as t:
-        for ImgPath in ImgsPath:
+        for Idx, ImgPath in enumerate(ImgsPath):
             if WriteMode == 0:
                 ImgPath = './dataset/example/bcc/ISIC_0053830.jpg'
             Img = cv2.imread(ImgPath) # ISIC_0053762.jpg, ISIC_0053506.jpg
@@ -72,14 +87,18 @@ for ClassName in ClassNames:
                     cv2.imwrite('./results/5.jpg', CropImg)
                     break
                 elif WriteMode == 1:
-                    Head, Tail = os.path.split(ImgPath)
-                    if 'data' in DatasetPath:
-                        DestPath = str(Path(DatasetPath).parents[0]) # return upper level folder
-                    DestPath = '%s/crop_img/%s' % (DestPath, ClassName)
-                    Path(DestPath).mkdir(parents=True, exist_ok=True)
-                    DestPath = DestPath + '/' + Tail
-                    
+                    DestPath = getDestPath(ImgPath, DatasetPath, ClassName)
                     cv2.imwrite(DestPath, CropImg)
+                    
+                    if MaskPath:
+                        DestMask = MaskPath[Idx]
+                        assert Path(ImgPath).stem in Path(DestMask).stem, "Image name is consistent with mask name"
+                        
+                        Mask = cv2.imread(DestMask)
+                        CropMask = Mask[y : y + h, x : x + w]
+                        DestPath = getDestPath(DestMask, DatasetPath, ClassName)
+                        cv2.imwrite(DestPath, CropMask)
+                    
                     
             t.update()
     if WriteMode == 0:
