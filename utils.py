@@ -17,7 +17,7 @@ def circleExtractor(DatasetPath, MasksetPath, WriteMode, ClassName=''):
     if MasksetPath:
         MaskPaths = glob(MasksetPath + '/*')
     print("Croping %s lesion type" % ClassName)
-    for Idx, ImgPath in enumerate(tqdm(ImgPaths, colour='blue', ncols=50)):
+    for ImgPath in tqdm(ImgPaths, colour='blue', ncols=50):
         if WriteMode == 0:
             ImgPath = './dataset/example/bcc/ISIC_0053830.jpg'
         Img = cv2.imread(ImgPath) # ISIC_0053762.jpg, ISIC_0053506.jpg
@@ -26,7 +26,7 @@ def circleExtractor(DatasetPath, MasksetPath, WriteMode, ClassName=''):
         
         _, Thred = cv2.threshold(GrayImg, 50, 255, cv2.THRESH_BINARY)
         
-        Kernal = np.ones((2,2),np.uint8)
+        Kernal = np.ones((2, 2), np.uint8)
         OpeningEdges = cv2.morphologyEx(Thred, cv2.MORPH_CLOSE, Kernal, iterations=2)
         
         Contours = cv2.findContours(OpeningEdges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -51,7 +51,7 @@ def circleExtractor(DatasetPath, MasksetPath, WriteMode, ClassName=''):
             cv2.destroyAllWindows() # Code to close Window
         
         if 'polyp' in DatasetPath:
-            Rule = Area / GrayImg.size < 0.6 and Area / GrayImg.size > 0.01
+            Rule = Area / GrayImg.size < 0.85 and Area / GrayImg.size > 0.01
         else:
             Rule = Area / GrayImg.size < 0.9 and Area / GrayImg.size > 0.01
 
@@ -77,8 +77,8 @@ def circleExtractor(DatasetPath, MasksetPath, WriteMode, ClassName=''):
                 cv2.imwrite(DestPath, CropImg)
                 
                 if MasksetPath:
-                    DestMask = MaskPaths[Idx]
-                    assert Path(ImgPath).stem in Path(DestMask).stem, "Image name is consistent with mask name"
+                    DestMask = [m for m in MaskPaths if Path(ImgPath).stem + '.' in m.replace('_mask', '')][0]
+                    assert Path(ImgPath).stem in Path(DestMask).stem.replace('_mask', ''), "Image name is consistent with mask name"
                     
                     Mask = cv2.imread(DestMask)
                     CropMask = Mask[y : y + h, x : x + w]
