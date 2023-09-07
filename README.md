@@ -3,7 +3,7 @@ The repository includes the codes to extract circle objects on the image by a re
 
 [**HierAttn: Deeply Supervised Skin Lesions Diagnosis with Stage and Branch Attention**](https://arxiv.org/abs/2205.04326)  
 Wei Dai, Rui Liu, Tianyi Wu, Min Wang, Jianqin Yin, Jun Liu        
-In arxiv, 2022. [[Paper](https://arxiv.org/abs/2205.04326)]
+Appeared in IEEE JBHI, 2023. [[Arxiv](https://arxiv.org/abs/2205.04326)][[Paper](https://ieeexplore.ieee.org/document/10230242)]
 
 The image is processed by transforming into grey scale, binarization, and cropping.
 
@@ -21,13 +21,14 @@ I used an example image for an illustration on my paper. You can try it under **
 If you find it useful in your research, please consider citing our paper as follows:
 
 ```
-@misc{dai2022hierattn,
-      title={HierAttn: Deeply Supervised Skin Lesions Diagnosis with Stage and Branch Attention}, 
-      author={Wei Dai and Rui Liu and Tianyi Wu and Min Wang and Jianqin Yin and Jun Liu},
-      year={2022},
-      eprint={2205.04326},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
-}
+@ARTICLE{dai2023deeply,
+  author={Dai, Wei and Liu, Rui and Wu, Tianyi and Wang, Min and Yin, Jianqin and Liu, Jun},
+  journal={IEEE Journal of Biomedical and Health Informatics}, 
+  title={Deeply Supervised Skin Lesions Diagnosis with Stage and Branch Attention}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-12},
+  doi={10.1109/JBHI.2023.3308697}}
 ```
 
