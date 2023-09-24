@@ -1,6 +1,6 @@
 import os
 
-from utils import circleExtractor
+from extractor import circleExtractor
 
 
 if __name__ == "__main__":
