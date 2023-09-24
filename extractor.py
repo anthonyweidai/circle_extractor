@@ -5,6 +5,7 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+from PIL import Image
 
 from utils import getDestPath
 
@@ -80,11 +81,11 @@ def circleExtractor(DatasetPath, MasksetPath, WriteMode, ClassName=''):
                 if MasksetPath:
                     DestMask = [m for m in MaskPaths if Path(ImgPath).stem + '.' in m.replace('_mask', '')][0]
                     assert Path(ImgPath).stem in Path(DestMask).stem.replace('_mask', ''), "Image name is consistent with mask name"
-                    
-                    Mask = cv2.imread(DestMask)
-                    CropMask = Mask[y : y + h, x : x + w]
+                    # keep mask mode crop and save
+                    Mask = Image.open(DestMask)
+                    CropMask = Mask.crop((x, y, x + w, y + h))
                     DestPath = getDestPath(DestMask, DatasetPath, ClassName, Level='masks')
-                    cv2.imwrite(DestPath, CropMask)
+                    CropMask.save(DestPath)
     return
 
 
@@ -151,10 +152,10 @@ def withPixelExtractor(DatasetPath, MasksetPath, WriteMode, ClassName=''):
                 if MasksetPath:
                     DestMask = [m for m in MaskPaths if Path(ImgPath).stem + '.' in m.replace('_mask', '')][0]
                     assert Path(ImgPath).stem in Path(DestMask).stem.replace('_mask', ''), "Image name is consistent with mask name"
-                    
-                    Mask = cv2.imread(DestMask)
-                    CropMask = Mask[y1 : y2, x1 : x2] 
+                    # keep mask mode crop and save
+                    Mask = Image.open(DestMask)
+                    CropMask = Mask.crop((x1, y1, x2, y2))
                     DestPath = getDestPath(DestMask, DatasetPath, ClassName, Level='masks')
-                    cv2.imwrite(DestPath, CropMask)
-    
+                    CropMask.save(DestPath)
+                    
     return 
