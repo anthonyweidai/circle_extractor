@@ -79,7 +79,8 @@ def circleExtractor(DatasetPath, MasksetPath, WriteMode, ClassName=''):
                 cv2.imwrite(DestPath, CropImg)
                 
                 if MasksetPath:
-                    DestMask = [m for m in MaskPaths if Path(ImgPath).stem + '.' in m.replace('_mask', '')][0]
+                    DestMask = [m for m in MaskPaths if Path(ImgPath).stem + '.' in 
+                                m.replace('_mask', '').replace('_segmentation', '')][0]
                     assert Path(ImgPath).stem in Path(DestMask).stem.replace('_mask', ''), "Image name is consistent with mask name"
                     # keep mask mode crop and save
                     Mask = Image.open(DestMask)
